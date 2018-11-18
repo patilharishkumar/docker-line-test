@@ -1,0 +1,20 @@
+app:
+  build: ./web/
+  links:
+    - redis
+  ports:
+      - "8000"
+haproxy:
+  image: tutum/haproxy:0.1
+  links:
+    - app
+  environment:
+    - BACKEND_PORT=8000
+redis:
+  image: redis
+nginx:
+  build: nginx
+  ports:
+    - "80:80"
+  links:
+    - haproxy
